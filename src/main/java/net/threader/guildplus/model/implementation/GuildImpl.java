@@ -143,7 +143,7 @@ public class GuildImpl implements Guild {
         stats.remove(stat);
         stats.put(stat, currentValue + quantity);
         Bukkit.getScheduler().runTaskAsynchronously(GuildPlus.instance(), () -> {
-            String query = "UPDATE guilds SET " + stat.getColumn() + "=" + stat.getColumn() + "+? WHERE UniqueID=?";
+            String query = "UPDATE guilds SET " + stat.getColumn() + "=" + stat.getColumn() + "+? WHERE unique_id=?";
             try (PreparedStatement st = GuildPlus.DATABASE_ACESSOR.getConnection().prepareStatement(query)) {
                 st.setInt(1, quantity);
                 st.setString(2, this.getUniqueId().toString());
@@ -161,7 +161,7 @@ public class GuildImpl implements Guild {
         stats.remove(stat);
         stats.put(stat, finalValue);
         Bukkit.getScheduler().runTaskAsynchronously(GuildPlus.instance(), () -> {
-            String query = "UPDATE FROM guilds SET " + stat.getColumn() + "=? WHERE UniqueID=?";
+            String query = "UPDATE FROM guilds SET " + stat.getColumn() + "=? WHERE unique_id=?";
             try (PreparedStatement st = GuildPlus.DATABASE_ACESSOR.getConnection().prepareStatement(query)) {
                 st.setInt(1, finalValue);
                 st.setString(2, this.getUniqueId().toString());
