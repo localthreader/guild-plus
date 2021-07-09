@@ -2,7 +2,7 @@ package net.threader.guildplus.controller.instance;
 
 import net.threader.guildplus.GuildPlus;
 import net.threader.guildplus.controller.MemberController;
-import net.threader.guildplus.model.Clan;
+import net.threader.guildplus.model.Guild;
 import net.threader.guildplus.model.Member;
 import net.threader.guildplus.model.enums.Office;
 import net.threader.guildplus.model.implementation.MemberImpl;
@@ -29,15 +29,15 @@ public enum SingleMemberController implements MemberController {
     }
 
     @Override
-    public Member registerMember(Player player, Clan clan, Office office) {
-        Member member = new MemberImpl(player.getUniqueId(), clan, office, "");
+    public Member registerMember(Player player, Guild guild, Office office) {
+        Member member = new MemberImpl(player.getUniqueId(), guild, office, "");
         MEMBERS.put(player.getUniqueId(), member);
         Bukkit.getScheduler().runTaskAsynchronously(GuildPlus.instance(), () -> {
             try (PreparedStatement statement = GuildPlus.DATABASE_ACESSOR.getConnection().prepareStatement(
                     "INSERT INTO Members VALUES(?, ?, ?, ?)")){
 
                 statement.setString(1, player.getUniqueId().toString());
-                statement.setString(2, clan.getUniqueId().toString());
+                statement.setString(2, guild.getUniqueId().toString());
                 statement.setString(3, "");
                 statement.setInt(4, office.getId());
                 statement.executeUpdate();
@@ -69,13 +69,13 @@ public enum SingleMemberController implements MemberController {
     @Override
     public void downloadMembers() {
         try (Statement st = GuildPlus.DATABASE_ACESSOR.getConnection().createStatement()) {
-            ResultSet rs = st.executeQuery("SELECT * FROM Members");
+            ResultSet rs = st.executeQuery("SELECT * FROM members");
             while(rs.next()) {
-                UUID uid = UUID.fromString(rs.getString("UniqueID"));
-                Optional<Clan> clan = Clan.of(UUID.fromString(rs.getString("ClanID")));
-                String rank = rs.getString("ChatRank");
-                Office office = Office.of(rs.getInt("Office"));
-                clan.ifPresent(clan1 -> this.MEMBERS.put(uid, new MemberImpl(uid, clan1, office, rank)));
+                UUID uid = UUID.fromString(rs.getString("unique_id"));
+                Optional<Guild> guild = Guild.of(UUID.fromString(rs.getString("guild_id")));
+                String rank = rs.getString("chat_rank");
+                Office office = Office.of(rs.getInt("office"));
+                guild.ifPresent(guild1 -> this.MEMBERS.put(uid, new MemberImpl(uid, guild1, office, rank)));
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();

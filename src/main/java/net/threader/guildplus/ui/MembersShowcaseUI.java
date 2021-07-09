@@ -1,11 +1,11 @@
 package net.threader.guildplus.ui;
 
-import net.threader.guildplus.GuildPlus;
-import net.threader.guildplus.model.Clan;
-import net.threader.guildplus.model.Member;
-import net.threader.guildplus.model.enums.Office;
 import net.arzio.simplegui.GUIItem;
 import net.arzio.simplegui.SimpleGUI;
+import net.threader.guildplus.GuildPlus;
+import net.threader.guildplus.model.Guild;
+import net.threader.guildplus.model.Member;
+import net.threader.guildplus.model.enums.Office;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
@@ -19,34 +19,34 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class MembersShowcaseUI {
-    public static SimpleGUI createFor(Clan clan, Player holder) {
-        GUIItem[] items = new GUIItem[clan.getMembers().size()];
+    public static SimpleGUI createFor(Guild guild, Player holder) {
+        GUIItem[] items = new GUIItem[guild.getMembers().size()];
         AtomicInteger arrayIndex = new AtomicInteger(0);
         AtomicInteger invIndex = new AtomicInteger(0);
-        items[arrayIndex.getAndIncrement()] = new GUIItem(getSkull(clan.getLeader()), invIndex.getAndIncrement(), (p,e) -> {});
-        clan.getMembers().stream().filter(x -> x.getOffice() == Office.SUBLEADER).forEach(member ->
+        items[arrayIndex.getAndIncrement()] = new GUIItem(getSkull(guild.getLeader()), invIndex.getAndIncrement(), (p, e) -> {});
+        guild.getMembers().stream().filter(x -> x.getOffice() == Office.SUBLEADER).forEach(member ->
             items[arrayIndex.getAndIncrement()] = new GUIItem(getSkull(member), invIndex.getAndIncrement(), (p,e) -> {})
         );
-        clan.getMembers().stream().filter(x -> x.getOffice() == Office.MEMBER).forEach(member ->
+        guild.getMembers().stream().filter(x -> x.getOffice() == Office.MEMBER).forEach(member ->
             items[arrayIndex.getAndIncrement()] = new GUIItem(getSkull(member), invIndex.getAndIncrement(), (p,e) -> {})
         );
-        return new SimpleGUI(GuildPlus.instance(), holder,"§7[" + clan.getTag().replace("&", "§") + "§7] §8" + clan.getName(),getRows(clan), items);
+        return new SimpleGUI(GuildPlus.instance(), holder,"§7[" + guild.getTag().replace("&", "§") + "§7] §8" + guild.getName(),getRows(guild), items);
     }
 
-    private static SimpleGUI.Rows getRows(Clan clan) {
-        if(clan.getMembers().size() <= 9) {
+    private static SimpleGUI.Rows getRows(Guild guild) {
+        if(guild.getMembers().size() <= 9) {
             return SimpleGUI.Rows.ONE;
         }
-        if(clan.getMembers().size() <= 18) {
+        if(guild.getMembers().size() <= 18) {
             return SimpleGUI.Rows.TWO;
         }
-        if(clan.getMembers().size() <= 27) {
+        if(guild.getMembers().size() <= 27) {
             return SimpleGUI.Rows.THREE;
         }
-        if(clan.getMembers().size() <= 36) {
+        if(guild.getMembers().size() <= 36) {
             return SimpleGUI.Rows.FOUR;
         }
-        if(clan.getMembers().size() <= 45) {
+        if(guild.getMembers().size() <= 45) {
             return SimpleGUI.Rows.FIVE;
         }
         return SimpleGUI.Rows.SIX;

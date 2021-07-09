@@ -1,6 +1,6 @@
 package net.threader.guildplus.utils;
 
-import net.threader.guildplus.model.Clan;
+import net.threader.guildplus.model.Guild;
 import net.threader.guildplus.model.Member;
 import net.threader.guildplus.model.enums.Office;
 
@@ -10,7 +10,7 @@ import java.util.function.Predicate;
 
 public class CommonVerifiers {
 
-    public static final Predicate<UUID> HAS_CLAN = (uuid) -> Member.of(uuid).isPresent();
+    public static final Predicate<UUID> HAS_GUILD = (uuid) -> Member.of(uuid).isPresent();
 
     public static final BiPredicate<UUID, Office> HAS_OFFICE = (uuid, office) -> {
         if(Member.of(uuid).isPresent()) {
@@ -20,7 +20,7 @@ public class CommonVerifiers {
         return false;
     };
 
-    public static final BiPredicate<UUID, UUID> SAME_CLAN = (player1, player2) ->
-        HAS_CLAN.test(player1) && HAS_CLAN.test(player2)
-            && Clan.of(Member.of(player1).get()).equals(Clan.of(Member.of(player2).get()));
+    public static final BiPredicate<UUID, UUID> SAME_GUILD = (player1, player2) ->
+        HAS_GUILD.test(player1) && HAS_GUILD.test(player2)
+            && Guild.of(Member.of(player1).get()).equals(Guild.of(Member.of(player2).get()));
 }

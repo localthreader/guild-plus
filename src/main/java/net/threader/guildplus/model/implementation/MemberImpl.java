@@ -2,7 +2,7 @@ package net.threader.guildplus.model.implementation;
 
 import net.threader.guildplus.GuildPlus;
 import net.threader.guildplus.controller.instance.SingleMemberController;
-import net.threader.guildplus.model.Clan;
+import net.threader.guildplus.model.Guild;
 import net.threader.guildplus.model.Member;
 import net.threader.guildplus.model.enums.Office;
 import org.bukkit.Bukkit;
@@ -14,13 +14,13 @@ import java.util.UUID;
 
 public class MemberImpl implements Member {
     private UUID uniqueId;
-    private Clan clan;
+    private Guild guild;
     private Office office;
     private String rank;
 
-    public MemberImpl(UUID uniqueId, Clan clan, Office office, String rank) {
+    public MemberImpl(UUID uniqueId, Guild guild, Office office, String rank) {
         this.uniqueId = uniqueId;
-        this.clan = clan;
+        this.guild = guild;
         this.office = office;
         this.rank = rank;
     }
@@ -41,8 +41,8 @@ public class MemberImpl implements Member {
     }
 
     @Override
-    public Clan getClan() {
-        return clan;
+    public Guild getGuild() {
+        return guild;
     }
 
     @Override

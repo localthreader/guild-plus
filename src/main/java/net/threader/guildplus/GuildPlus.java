@@ -1,39 +1,37 @@
 package net.threader.guildplus;
 
-import com.armacraft.armalib.api.util.db.SQLUtils;
-import net.threader.guildplus.command.ClanAcceptCommand;
-import net.threader.guildplus.command.ClanAllyAcceptCommand;
-import net.threader.guildplus.command.ClanAllyRequestCommand;
-import net.threader.guildplus.command.ClanChangeNameCommand;
-import net.threader.guildplus.command.ClanChangeTagCommand;
-import net.threader.guildplus.command.ClanChatCommand;
-import net.threader.guildplus.command.ClanChestCommand;
-import net.threader.guildplus.command.ClanCommand;
-import net.threader.guildplus.command.ClanCommandsCommand;
-import net.threader.guildplus.command.ClanConfirmCommand;
-import net.threader.guildplus.command.ClanCreateCommand;
-import net.threader.guildplus.command.ClanDeclineCommand;
-import net.threader.guildplus.command.ClanDemoteCommand;
-import net.threader.guildplus.command.ClanDisbandCommand;
-import net.threader.guildplus.command.ClanHomeCommand;
-import net.threader.guildplus.command.ClanInviteCommand;
-import net.threader.guildplus.command.ClanKickCommand;
-import net.threader.guildplus.command.ClanLeaderChestCommand;
-import net.threader.guildplus.command.ClanLeaveCommand;
-import net.threader.guildplus.command.ClanMembersCommand;
-import net.threader.guildplus.command.ClanPromoteCommand;
-import net.threader.guildplus.command.ClanSetHomeCommand;
-import net.threader.guildplus.command.ClanSetRankCommand;
-import net.threader.guildplus.controller.instance.SingleClanController;
-import net.threader.guildplus.controller.instance.SingleClanRankController;
+import net.milkbowl.vault.economy.Economy;
+import net.threader.guildplus.command.GuildAcceptCommand;
+import net.threader.guildplus.command.GuildAllyAcceptCommand;
+import net.threader.guildplus.command.GuildAllyRequestCommand;
+import net.threader.guildplus.command.GuildChangeNameCommand;
+import net.threader.guildplus.command.GuildChangeTagCommand;
+import net.threader.guildplus.command.GuildChatCommand;
+import net.threader.guildplus.command.GuildChestCommand;
+import net.threader.guildplus.command.GuildCommand;
+import net.threader.guildplus.command.GuildCommandsCommand;
+import net.threader.guildplus.command.GuildConfirmCommand;
+import net.threader.guildplus.command.GuildCreateCommand;
+import net.threader.guildplus.command.GuildDeclineCommand;
+import net.threader.guildplus.command.GuildDemoteCommand;
+import net.threader.guildplus.command.GuildDisbandCommand;
+import net.threader.guildplus.command.GuildHomeCommand;
+import net.threader.guildplus.command.GuildInviteCommand;
+import net.threader.guildplus.command.GuildKickCommand;
+import net.threader.guildplus.command.GuildLeaderChestCommand;
+import net.threader.guildplus.command.GuildLeaveCommand;
+import net.threader.guildplus.command.GuildMembersCommand;
+import net.threader.guildplus.command.GuildPromoteCommand;
+import net.threader.guildplus.command.GuildSetHomeCommand;
+import net.threader.guildplus.command.GuildSetRankCommand;
+import net.threader.guildplus.controller.instance.SingleGuildController;
+import net.threader.guildplus.controller.instance.SingleGuildRankController;
 import net.threader.guildplus.controller.instance.SingleMemberController;
 import net.threader.guildplus.db.SQLiteDatabase;
 import net.threader.guildplus.listener.ChatMessageListener;
-import net.threader.guildplus.listener.DominationListeners;
 import net.threader.guildplus.listener.EntityDamagedByEntityListener;
 import net.threader.guildplus.listener.EntityDeathListener;
-import net.threader.guildplus.listener.NametagDefineBusListener;
-import net.milkbowl.vault.economy.Economy;
+import net.threader.guildplus.utils.SQLUtils;
 import net.threadly.commandexpress.CommandExpress;
 import net.threadly.commandexpress.CommandSpec;
 import net.threadly.commandexpress.args.GenericArguments;
@@ -66,9 +64,9 @@ public class GuildPlus extends JavaPlugin {
         SQLUtils.executeScript(new BufferedReader
                         (new InputStreamReader(Objects.requireNonNull(GuildPlus.class.getResourceAsStream("/db/sql/setup.sql")))),
                 DATABASE_ACESSOR.getConnection());
-        SingleClanController.INSTANCE.downloadClans();
+        SingleGuildController.INSTANCE.downloadGuilds();
         SingleMemberController.INSTANCE.downloadMembers();
-        SingleClanRankController.INSTANCE.startUpdateTask();
+        SingleGuildRankController.INSTANCE.startUpdateTask();
 
         if (!setupEconomy() ) {
             log.severe(String.format("[%s] - Disabled due to no Vault dependency found!", getDescription().getName()));
@@ -79,106 +77,104 @@ public class GuildPlus extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new ChatMessageListener(), this);
         Bukkit.getPluginManager().registerEvents(new EntityDamagedByEntityListener(), this);
         Bukkit.getPluginManager().registerEvents(new EntityDeathListener(), this);
-        Bukkit.getPluginManager().registerEvents(new DominationListeners(), this);
-        Bukkit.getPluginManager().registerEvents(new NametagDefineBusListener(), this);
 
-        CommandSpec clanCreateCommand = CommandSpec.builder().executor(new ClanCreateCommand())
+        CommandSpec guildCreateCommand = CommandSpec.builder().executor(new GuildCreateCommand())
                 .arguments(GenericArguments.string("tag"), GenericArguments.joinString("nome"))
                 .build();
 
-        CommandSpec clanInviteCommand = CommandSpec.builder().executor(new ClanInviteCommand())
+        CommandSpec guildInviteCommand = CommandSpec.builder().executor(new GuildInviteCommand())
                 .arguments(GenericArguments.string("player")).build();
 
-        CommandSpec clanKickCommand = CommandSpec.builder().executor(new ClanKickCommand())
+        CommandSpec guildKickCommand = CommandSpec.builder().executor(new GuildKickCommand())
                 .arguments(GenericArguments.string("player")).build();
 
-        CommandSpec clanLeaveCommand = CommandSpec.builder().executor(new ClanLeaveCommand()).build();
+        CommandSpec guildLeaveCommand = CommandSpec.builder().executor(new GuildLeaveCommand()).build();
 
-        CommandSpec clanDisbandCommand = CommandSpec.builder().executor(new ClanDisbandCommand()).build();
+        CommandSpec guildDisbandCommand = CommandSpec.builder().executor(new GuildDisbandCommand()).build();
 
-        CommandSpec clanPromoteCommand = CommandSpec.builder().executor(new ClanPromoteCommand())
+        CommandSpec guildPromoteCommand = CommandSpec.builder().executor(new GuildPromoteCommand())
                 .arguments(GenericArguments.string("player")).build();
 
-        CommandSpec clanDemoteCommand = CommandSpec.builder().executor(new ClanDemoteCommand())
+        CommandSpec guildDemoteCommand = CommandSpec.builder().executor(new GuildDemoteCommand())
                 .arguments(GenericArguments.string("player")).build();
 
-        CommandSpec clanDeclineCommand = CommandSpec.builder().executor(new ClanDeclineCommand()).build();
+        CommandSpec guildDeclineCommand = CommandSpec.builder().executor(new GuildDeclineCommand()).build();
 
-        CommandSpec clanAcceptCommand = CommandSpec.builder().executor(new ClanAcceptCommand()).build();
+        CommandSpec guildAcceptCommand = CommandSpec.builder().executor(new GuildAcceptCommand()).build();
 
-        CommandSpec clanCommandsCommand = CommandSpec.builder().executor(new ClanCommandsCommand()).build();
+        CommandSpec guildCommandsCommand = CommandSpec.builder().executor(new GuildCommandsCommand()).build();
 
-        CommandSpec clanMembersCommand = CommandSpec.builder().executor(new ClanMembersCommand()).build();
+        CommandSpec guildMembersCommand = CommandSpec.builder().executor(new GuildMembersCommand()).build();
 
-        CommandSpec clanChestLeaderCommand = CommandSpec.builder().executor(new ClanLeaderChestCommand()).playerOnly().build();
+        CommandSpec guildChestLeaderCommand = CommandSpec.builder().executor(new GuildLeaderChestCommand()).playerOnly().build();
 
-        CommandSpec clanSetHomeCommand = CommandSpec.builder().executor(new ClanSetHomeCommand()).playerOnly().build();
+        CommandSpec guildSetHomeCommand = CommandSpec.builder().executor(new GuildSetHomeCommand()).playerOnly().build();
 
-        CommandSpec clanHomeCommand = CommandSpec.builder().executor(new ClanHomeCommand()).playerOnly().build();
+        CommandSpec guildHomeCommand = CommandSpec.builder().executor(new GuildHomeCommand()).playerOnly().build();
 
-        CommandSpec clanChestCommand = CommandSpec.builder().executor(new ClanChestCommand()).playerOnly()
-                .child(clanChestLeaderCommand, "lider").build();
+        CommandSpec guildChestCommand = CommandSpec.builder().executor(new GuildChestCommand()).playerOnly()
+                .child(guildChestLeaderCommand, "lider").build();
 
-        CommandSpec clanSetRank = CommandSpec.builder().executor(new ClanSetRankCommand()).playerOnly()
+        CommandSpec guildSetRank = CommandSpec.builder().executor(new GuildSetRankCommand()).playerOnly()
                 .arguments(GenericArguments.string("player"), GenericArguments.string("rank")).build();
 
-        CommandSpec clanSetTag = CommandSpec.builder().executor(new ClanChangeTagCommand())
+        CommandSpec guildSetTag = CommandSpec.builder().executor(new GuildChangeTagCommand())
                 .playerOnly().arguments(GenericArguments.string("tag")).build();
 
-        CommandSpec clanSetName = CommandSpec.builder().executor(new ClanChangeNameCommand())
+        CommandSpec guildSetName = CommandSpec.builder().executor(new GuildChangeNameCommand())
                 .playerOnly().arguments(GenericArguments.string("name")).build();
 
-        CommandSpec clanSetCommand = CommandSpec.builder()
+        CommandSpec guildSetCommand = CommandSpec.builder()
                 .executor((context, args) -> CommandResult.builder().build())
-                .child(clanSetTag, "name")
-                .child(clanSetName, "tag")
+                .child(guildSetTag, "name")
+                .child(guildSetName, "tag")
                 .build();
 
-        CommandSpec clanConfirmCommand = CommandSpec.builder().executor(new ClanConfirmCommand()).build();
+        CommandSpec guildConfirmCommand = CommandSpec.builder().executor(new GuildConfirmCommand()).build();
 
         CommandSpec configReloadCommand = CommandSpec.builder().executor((a,b) -> {
             GuildPlus.instance().reloadConfig();
             return CommandResult.builder().build();
-        }).permission("armalib.adm").build();
+        }).permission("guildplus.adm").build();
 
-        CommandSpec clanAllyAdd = CommandSpec.builder().arguments(GenericArguments.string("key"))
-                .executor(new ClanAllyRequestCommand())
+        CommandSpec guildAllyAdd = CommandSpec.builder().arguments(GenericArguments.string("key"))
+                .executor(new GuildAllyRequestCommand())
                 .build();
 
-        CommandSpec clanAllyAccept = CommandSpec.builder().executor(new ClanAllyAcceptCommand()).build();
+        CommandSpec guildAllyAccept = CommandSpec.builder().executor(new GuildAllyAcceptCommand()).build();
 
-        CommandSpec clanAllyCommand = CommandSpec.builder()
-                .child(clanAllyAccept, "aceitar", "accept")
-                .child(clanAllyAdd, "add", "adicionar", "convidar", "request")
+        CommandSpec guildAllyCommand = CommandSpec.builder()
+                .child(guildAllyAccept, "aceitar", "accept")
+                .child(guildAllyAdd, "add", "adicionar", "convidar", "request")
                 .build();
 
-        CommandSpec clanCommand = CommandSpec.builder().executor(new ClanCommand()).playerOnly()
-                .child(clanCreateCommand, "criar", "create")
-                .child(clanCommandsCommand, "cmd", "comandos", "help", "?", "ajuda")
-                .child(clanDeclineCommand, "recusar", "decline")
-                .child(clanAcceptCommand, "aceitar", "accept")
-                .child(clanMembersCommand, "members", "membros")
-                .child(clanInviteCommand, "convidar", "invite")
-                .child(clanKickCommand, "kick", "expulsar")
-                .child(clanPromoteCommand, "promover", "promote")
-                .child(clanDemoteCommand, "demote", "rebaixar")
-                .child(clanLeaveCommand, "leave", "sair")
-                .child(clanDisbandCommand, "disband", "deletar", "disbandar")
-                .child(clanChestCommand, "chest")
-                .child(clanSetHomeCommand, "sethome")
-                .child(clanHomeCommand, "home")
-                .child(clanConfirmCommand, "confirm", "confirmar")
+        CommandSpec guildCommand = CommandSpec.builder().executor(new GuildCommand()).playerOnly()
+                .child(guildCreateCommand, "criar", "create")
+                .child(guildCommandsCommand, "cmd", "comandos", "help", "?", "ajuda")
+                .child(guildDeclineCommand, "recusar", "decline")
+                .child(guildAcceptCommand, "aceitar", "accept")
+                .child(guildMembersCommand, "members", "membros")
+                .child(guildInviteCommand, "convidar", "invite")
+                .child(guildKickCommand, "kick", "expulsar")
+                .child(guildPromoteCommand, "promover", "promote")
+                .child(guildDemoteCommand, "demote", "rebaixar")
+                .child(guildLeaveCommand, "leave", "sair")
+                .child(guildDisbandCommand, "disband", "deletar", "disbandar")
+                .child(guildChestCommand, "chest")
+                .child(guildSetHomeCommand, "sethome")
+                .child(guildHomeCommand, "home")
+                .child(guildConfirmCommand, "confirm", "confirmar")
                 .child(configReloadCommand, "reload")
-                .child(clanSetRank, "setrank")
-                .child(clanSetCommand, "set")
-                .child(clanAllyCommand, "ally", "alianca", "alliance")
+                .child(guildSetRank, "setrank")
+                .child(guildSetCommand, "set")
+                .child(guildAllyCommand, "ally", "alianca", "alliance")
                 .build();
 
-        CommandSpec clanChatCommand = CommandSpec.builder().executor(new ClanChatCommand())
+        CommandSpec guildChatCommand = CommandSpec.builder().executor(new GuildChatCommand())
                 .arguments(GenericArguments.joinString("message")).build();
 
-        CommandExpress.registerCommandEntryPoint(this, clanChatCommand, ".");
-        CommandExpress.registerCommandEntryPoint(this, clanCommand, "clan");
+        CommandExpress.registerCommandEntryPoint(this, guildChatCommand, ".");
+        CommandExpress.registerCommandEntryPoint(this, guildCommand, "guild");
     }
 
     @Override

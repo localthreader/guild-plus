@@ -11,5 +11,5 @@ public interface Invite {
 
     UUID getInvited();
 
-    Clan getInviter();
+    Guild getInviter();
 }

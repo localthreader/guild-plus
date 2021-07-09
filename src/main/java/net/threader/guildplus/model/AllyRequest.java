@@ -7,7 +7,7 @@ public interface AllyRequest {
 
     BukkitTask getTask();
 
-    Clan getInvited();
+    Guild getInvited();
 
-    Clan getInviter();
+    Guild getInviter();
 }

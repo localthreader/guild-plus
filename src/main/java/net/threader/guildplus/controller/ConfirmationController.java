@@ -1,21 +1,21 @@
 package net.threader.guildplus.controller;
 
-import net.threader.guildplus.model.Clan;
+import net.threader.guildplus.model.Guild;
 
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
 public interface ConfirmationController {
-    Map<Clan, UUID> getOwnershipTransferConfirmations();
+    Map<Guild, UUID> getOwnershipTransferConfirmations();
 
-    Set<Clan> getDisbandConfirmations();
+    Set<Guild> getDisbandConfirmations();
 
-    void addOwnershipTransferConfirmation(Clan clan, UUID uid);
+    void addOwnershipTransferConfirmation(Guild guild, UUID uid);
 
-    void addDisbandConfirmation(Clan uid);
+    void addDisbandConfirmation(Guild uid);
 
     void destroyAllConfirmationsFor(UUID player);
 
-    void destroyAllConfirmationsFor(Clan clan);
+    void destroyAllConfirmationsFor(Guild guild);
 }

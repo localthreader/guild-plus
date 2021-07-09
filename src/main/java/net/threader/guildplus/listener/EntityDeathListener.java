@@ -1,7 +1,7 @@
 package net.threader.guildplus.listener;
 
 import net.threader.guildplus.model.Member;
-import net.threader.guildplus.model.enums.ClanStat;
+import net.threader.guildplus.model.enums.GuildStat;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -13,11 +13,11 @@ public class EntityDeathListener implements Listener {
         Member.of(event.getEntity().getUniqueId()).ifPresent(member -> {
             if(event.getEntity().getKiller() != null) {
                 Member.of(event.getEntity().getKiller().getUniqueId()).ifPresent(killer -> {
-                    killer.getClan().increaseStat(ClanStat.KILL, 1);
+                    killer.getGuild().increaseStat(GuildStat.KILL, 1);
                 });
             }
             if(event.getEntity().getLastDamageCause().getCause() == EntityDamageEvent.DamageCause.ENTITY_ATTACK) {
-                member.getClan().increaseStat(ClanStat.DEATH, 1);
+                member.getGuild().increaseStat(GuildStat.DEATH, 1);
             }
         });
     }

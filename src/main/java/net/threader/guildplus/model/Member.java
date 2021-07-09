@@ -18,7 +18,7 @@ public interface Member {
 
     String getRank();
 
-    Clan getClan();
+    Guild getGuild();
 
     Office getOffice();
 

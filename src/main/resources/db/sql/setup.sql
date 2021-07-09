@@ -1,36 +1,36 @@
-CREATE TABLE IF NOT EXISTS Clans (
-    UniqueID VARCHAR(64) PRIMARY KEY,
-    Name VARCHAR(20),
-    Tag VARCHAR(12),
-    Points INT,
-    Exp INT,
-    Deaths INT,
-    Kills INT
+CREATE TABLE IF NOT EXISTS guilds (
+    unique_id VARCHAR(64) PRIMARY KEY,
+    name VARCHAR(20),
+    tag VARCHAR(12),
+    points INT,
+    experience INT,
+    deaths INT,
+    kills INT
 );
 
-CREATE TABLE IF NOT EXISTS ClanAllies(
-    ClanID VARCHAR(64),
-    AllyID VARCHAR(64),
-    FOREIGN KEY (ClanID) REFERENCES Clans(UniqueID),
-    FOREIGN KEY (AllyID) REFERENCES Clans(UniqueID),
-    PRIMARY KEY(ClanID, AllyID)
+CREATE TABLE IF NOT EXISTS guild_allies(
+    guild_id VARCHAR(64),
+    ally_id VARCHAR(64),
+    FOREIGN KEY (guild_id) REFERENCES guilds(unique_id),
+    FOREIGN KEY (ally_id) REFERENCES guilds(unique_id),
+    PRIMARY KEY(guild_id, ally_id)
 );
 
-CREATE TABLE IF NOT EXISTS Members (
-    UniqueID VARCHAR(64) PRIMARY KEY,
-    ClanID VARCHAR(64),
-    ChatRank VARCHAR(16),
-    Office SMALLINT,
+CREATE TABLE IF NOT EXISTS members (
+    unique_id VARCHAR(64) PRIMARY KEY,
+    guild_id VARCHAR(64),
+    chat_rank VARCHAR(16),
+    office SMALLINT,
 
-    FOREIGN KEY (ClanID) REFERENCES Clans(UniqueID)
+    FOREIGN KEY (guild_id) REFERENCES guilds(unique_id)
 );
 
-CREATE TABLE IF NOT EXISTS ClanHomes (
-    ClanID VARCHAR(64) PRIMARY KEY,
-    WorldID VARCHAR(64),
+CREATE TABLE IF NOT EXISTS guild_homes (
+    guild_id VARCHAR(64) PRIMARY KEY,
+    world_id VARCHAR(64),
     X INT,
     Y INT,
     Z INT,
 
-    FOREIGN KEY (ClanID) REFERENCES Clans(UniqueID)
+    FOREIGN KEY (guild_id) REFERENCES guilds(unique_id)
 );

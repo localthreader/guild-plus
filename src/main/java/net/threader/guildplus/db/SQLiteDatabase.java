@@ -1,6 +1,6 @@
 package net.threader.guildplus.db;
 
-import com.armacraft.armalib.ArmaLib;
+import net.threader.guildplus.GuildPlus;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,18 +13,18 @@ public class SQLiteDatabase {
     private Connection connection;
 
     public void connect() {
-        File file = new File(ArmaLib.instance().getDataFolder(), "database.db");
+        File file = new File(GuildPlus.instance().getDataFolder(), "database.db");
         try {
             if (!file.exists()) {
                 file.createNewFile();
             }
-            ArmaLib.instance().getLogger().log(Level.INFO, "Estabelecendo conexão com o banco...");
+            GuildPlus.instance().getLogger().log(Level.INFO, "Estabelecendo conexão com o banco...");
             connection = DriverManager.getConnection("jdbc:sqlite:" + file);
-            ArmaLib.instance().getLogger().log(Level.INFO, "Conexão com o banco estabelecida!");
+            GuildPlus.instance().getLogger().log(Level.INFO, "Conexão com o banco estabelecida!");
         } catch (SQLException | IOException throwables) {
             throwables.printStackTrace();
-            ArmaLib.instance().getLogger().log(Level.SEVERE, "Erro durante conexão com o banco, desativando plugin.");
-            ArmaLib.instance().getPluginLoader().disablePlugin(ArmaLib.instance());
+            GuildPlus.instance().getLogger().log(Level.SEVERE, "Erro durante conexão com o banco, desativando plugin.");
+            GuildPlus.instance().getPluginLoader().disablePlugin(GuildPlus.instance());
         }
     }
 

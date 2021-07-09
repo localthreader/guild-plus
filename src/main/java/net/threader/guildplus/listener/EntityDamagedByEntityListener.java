@@ -14,7 +14,7 @@ public class EntityDamagedByEntityListener implements Listener {
                 Member.of(event.getEntity().getUniqueId()).ifPresent(damagedMember -> {
                     String worldName = event.getEntity().getWorld().getName();
                     if(worldName.contains("cidade_") || worldName.contains("arenapvp")) {
-                        if(damagedMember.getClan().equals(damagerMember.getClan())) {
+                        if(damagedMember.getGuild().equals(damagerMember.getGuild())) {
                             event.setCancelled(true);
                         }
                     }
