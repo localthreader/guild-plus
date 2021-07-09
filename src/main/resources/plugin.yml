@@ -1,0 +1,12 @@
+main: com.armacraft.clans.ArmaClans
+name: ArmaClans
+version: 1.0
+api-version: 1.16
+author: threader
+depend:
+  - ArmaLib
+  - CommandExpress
+  - UltimateChat
+commands:
+  clan:
+  .:

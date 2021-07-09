@@ -1,0 +1,130 @@
+clan:
+  max_ally:
+  max_enemies:
+  create:
+    max_name_size: 11
+    max_tag_size: 25
+    cost: 0
+  invite:
+    max_sync_invites: 5
+    timeout_seconds: 60
+  config:
+    max_players: 0
+    max_subleaders: 0
+  cooldown:
+    clan_create: 5
+    change_name_or_tag: 5
+
+message:
+  tag_grande: '&cA tag do clan deve ter no máximo {size} caracteres.'
+  nome_grande: '&cO nome do clan deve ter no máximo {size} caracteres.'
+  sem_clan: '&cVocê não tem um clan, utilize /clan criar para criar um.'
+  cargo_insuficiente: '&cSeu cargo não é alto o suficiente.'
+  ja_tem_clan: '&cVocê já está em um clan.'
+  sem_dinheiro: '&cVocê não tem dinheiro suficiente'
+  clan_criado: '&aClan criado com sucesso!'
+  tag_existe: '&cJá existe um clan com a mesma tag'
+  nome_existe: '&cJá existe um clan com o mesmo nome'
+  criar_cooldown: '&cVocê deve esperar {tempo} minutos para criar outro clan.'
+  change_cooldown: '&cVocê deve esperar {tempo} minutos para mudar o nome ou tag do clan.'
+  max_convites: '&cConvites simultâneos excedidos.'
+  ja_convidado: '&cO jogador já está sendo convidado por um clan'
+  player_ja_tem_clan: '&cO jogador já está em um clan'
+  convite_enviado: '&aConvite enviado! Ele tem {tempo} segundos para aceitar'
+  no_invites: '&cNenhum clan está te convidando'
+  max_players: '&cSeu clan atingiu o número máximo de jogadores'
+  convidou_player: '&b{membro} convidou {player} para o clan.'
+  entrou_clan: '&b{membro} ingressou no clan.'
+  recusou_clan: '&b{membro} recusou o convite do clan.'
+  nao_mesmo_clan: '&cEsse jogador não está no seu clan'
+  player_kickado: '&b{membro} kickou {player} do clan'
+  foi_kickado: '&cVocê foi kickado do seu clan'
+  max_sub_liders: '&cSeu clan atingiu o número máximo de sub-líders'
+  ja_mesmo_clan: '&cO jogador já está em seu clan'
+  nao_pode_promover_vc_mesmo: '&cVocê não pode promover a si mesmo'
+  nao_pode_rebaixar_vc_mesmo: '&cVocê não pode rebaixar a si mesmo'
+  foi_rebaixado: '&eO sub-líder {player} foi rebaixado para membro.'
+  promoveu: '&b{player} promoveu {membro} para {cargo} do clan.'
+  transferiu: '&b{player} transferiu a liderança do clan para {membro}'
+  sem_confirmacao: '&cNenhuma confirmação pendente encontrada'
+  lideranca_transferida: '&aLiderança transferida com sucesso!'
+  ja_confirmacao: '&cVocê já tem uma confirmação pendente.'
+  disband: '&eO seu clan foi deletado pelo líder.'
+  clan_leave: '&bO jogador {player} saiu do clan.'
+  nao_esta_clan: '&cEsse jogador não está no clan'
+  clan_chat_message: '&b[CLAN] [{office}&b] &b{nick}&7: &e{message}'
+  clan_chat_message_rank: '&b[CLAN] [{office}&b] &b[{rank}&b] &b{nick}&7: &e{message}'
+  abriu_bau: '&e{player} abriu o chest do clan.'
+  abriu_bau_lider: '&e{player} abriu o báu de sub-líderes do clan.'
+  nao_pode_ser_rebaixado: '&cO jogador não pode ser rebaixado.'
+  clan_disband_confirm:
+    - ''
+    - '&6&l[CLAN] &eVocê tem certeza? Caso você prossiga, seu clan'
+    - '           &eserá deletado, bem como todas as suas infor-.'
+    - '           &emações e pontos. Para confirmar digite '
+    - '           &e/clan confirmar'
+    - ''
+  owner_ship_confirm:
+    - ''
+    - '&6&l[CLAN] &eVocê tem certeza? Promovendo esse jogador você'
+    - '           &eestará passando a liderança do clan para ele.'
+    - '           &ePara confirmar digite /clan confirmar'
+    - ''
+  no_clan_lookup:
+    - ''
+    - '&6&l[CLAN] &fClan: &6Nenhum.'
+    - '  &bPeça para que te convidem para um clan'
+    - ''
+  clan_lookup:
+    - ''
+    - '&6&l[CLAN] &fClan: &6[{tag}&6] {nome}'
+    - ' &6&l[CLAN] &fLíder: &b{lider}'
+    - ' &6&l[CLAN] &fPontos de Clan: {pontos}'
+    - ' &6&l[CLAN] &fExperiência: {exp}XP'
+    - ' &6&l[CLAN] &fMembros: {membros_size} membros'
+    - ' &6&l[CLAN] &fKills/Mortes totais: {kills}K/{mortes}D'
+    - ' &6&l[CLAN] &fKDR: {kdr}'
+    - ' &6&l[CLAN] &fComandos de Clan: &6/clan comandos'
+    - ''
+  clan_commands:
+    - ''
+    - '&6&l[CLAN] &eComandos de Clan:'
+    - ' &6&l[CLAN] &f/clan criar <tag> <nome> &7- &fCria um clan'
+    - ' &6&l[CLAN] &f/clan shop &7- &fAbre o shop de clan'
+    - ' &6&l[CLAN] &f/clan chest &7- &fAbre o chest do clan'
+    - ' &6&l[CLAN] &f/clan chest lider &7- &fAbre o chest dos lideres'
+    - ' &6&l[CLAN] &f/clan home &7- &fTeleporta à home do clan'
+    - ' &6&l[CLAN] &f/clan sethome &7- &fMarca a home do clan'
+    - ' &6&l[CLAN] &f/clan kick &7- &fExpulsa alguém do clan'
+    - ' &6&l[CLAN] &f/clan tag <novaTag> &7- &fAltera a tag do clan'
+    - ' &6&l[CLAN] &f/clan nome <novoNome> &7- &fAltera o nome do clan'
+    - ' &6&l[CLAN] &f/clan membros &7- &fVer todos os membros do clan'
+    - ' &6&l[CLAN] &f/clan convidar <player> &7- &fConvida alguém pro clan'
+    - ' &6&l[CLAN] &f/clan promover <player> &7- &fPromove pra Sub-Líder'
+    - ' &6&l[CLAN] &f/clan rebaixar <player> &7- &fRebaixa um Sub-Líder'
+    - ' &6&l[CLAN] &f/clan setrank <player> <texto> &7- Dá rank no chat'
+    - ' &6&l[CLAN] &f/clan sair &7- &fSai do Clan'
+    - ' &6&l[CLAN] &f/. <texto> &7- &fEnviar mensagem pro clan'
+    - ''
+  clan_membros:
+    - ''
+    - '&6&l[CLAN] &fMembros do seu clan: {membros}'
+    - ''
+  clan_invite:
+    - ''
+    - ' &6&l[CLAN] &eO Clan {tag} &edeseja que você faça parte deles.'
+    - '         &fPara aceitar o pedido, use &2/clan aceitar&f.'
+    - '         &fPara recusar o pedido, use &c/clan recusar&f.'
+    - ''
+  domination_end:
+    - ''
+    - ' &6&l[CLAN] &e&l{player} concluiu uma dominação para o clan'
+    - ' &6&l[CLAN] &5&l+80 &ePONTOS DE CLAN'
+    - ' &6&l[CLAN] &5&l+{xp_quantity} &bDE XP DE CLAN'
+    - ''
+  alianca_estabelecida:
+    - ''
+    - '&6&l[CLAN] &eSeu clan agora é alidado do clan {clan_tag}'
+    - '&6&l[CLAN] &eVocês não poderão mais se atacar na cidade'
+    - '&e&l[CLAN] &ee poderão ver suas nametags na cidade.'
+    - ''

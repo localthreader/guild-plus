@@ -1,0 +1,36 @@
+CREATE TABLE IF NOT EXISTS Clans (
+    UniqueID VARCHAR(64) PRIMARY KEY,
+    Name VARCHAR(20),
+    Tag VARCHAR(12),
+    Points INT,
+    Exp INT,
+    Deaths INT,
+    Kills INT
+);
+
+CREATE TABLE IF NOT EXISTS ClanAllies(
+    ClanID VARCHAR(64),
+    AllyID VARCHAR(64),
+    FOREIGN KEY (ClanID) REFERENCES Clans(UniqueID),
+    FOREIGN KEY (AllyID) REFERENCES Clans(UniqueID),
+    PRIMARY KEY(ClanID, AllyID)
+);
+
+CREATE TABLE IF NOT EXISTS Members (
+    UniqueID VARCHAR(64) PRIMARY KEY,
+    ClanID VARCHAR(64),
+    ChatRank VARCHAR(16),
+    Office SMALLINT,
+
+    FOREIGN KEY (ClanID) REFERENCES Clans(UniqueID)
+);
+
+CREATE TABLE IF NOT EXISTS ClanHomes (
+    ClanID VARCHAR(64) PRIMARY KEY,
+    WorldID VARCHAR(64),
+    X INT,
+    Y INT,
+    Z INT,
+
+    FOREIGN KEY (ClanID) REFERENCES Clans(UniqueID)
+);
