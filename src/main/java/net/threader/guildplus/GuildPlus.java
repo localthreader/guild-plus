@@ -106,14 +106,9 @@ public class GuildPlus extends JavaPlugin {
 
         CommandSpec guildMembersCommand = CommandSpec.builder().executor(new GuildMembersCommand()).build();
 
-        CommandSpec guildChestLeaderCommand = CommandSpec.builder().executor(new GuildLeaderChestCommand()).playerOnly().build();
-
         CommandSpec guildSetHomeCommand = CommandSpec.builder().executor(new GuildSetHomeCommand()).playerOnly().build();
 
         CommandSpec guildHomeCommand = CommandSpec.builder().executor(new GuildHomeCommand()).playerOnly().build();
-
-        CommandSpec guildChestCommand = CommandSpec.builder().executor(new GuildChestCommand()).playerOnly()
-                .child(guildChestLeaderCommand, "lider").build();
 
         CommandSpec guildSetRank = CommandSpec.builder().executor(new GuildSetRankCommand()).playerOnly()
                 .arguments(GenericArguments.string("player"), GenericArguments.string("rank")).build();
@@ -148,7 +143,7 @@ public class GuildPlus extends JavaPlugin {
                 .child(guildAllyAdd, "add", "adicionar", "convidar", "request")
                 .build();
 
-        CommandSpec guildCommand = CommandSpec.builder().executor(new GuildCommand()).playerOnly()
+        CommandSpec.Builder guildCommandBuilder = CommandSpec.builder().executor(new GuildCommand()).playerOnly()
                 .child(guildCreateCommand, "criar", "create")
                 .child(guildCommandsCommand, "cmd", "comandos", "help", "?", "ajuda")
                 .child(guildDeclineCommand, "recusar", "decline")
@@ -160,21 +155,26 @@ public class GuildPlus extends JavaPlugin {
                 .child(guildDemoteCommand, "demote", "rebaixar")
                 .child(guildLeaveCommand, "leave", "sair")
                 .child(guildDisbandCommand, "disband", "deletar", "disbandar")
-                .child(guildChestCommand, "chest")
-                .child(guildSetHomeCommand, "sethome")
                 .child(guildHomeCommand, "home")
                 .child(guildConfirmCommand, "confirm", "confirmar")
                 .child(configReloadCommand, "reload")
                 .child(guildSetRank, "setrank")
                 .child(guildSetCommand, "set")
-                .child(guildAllyCommand, "ally", "alianca", "alliance")
-                .build();
+                .child(guildAllyCommand, "ally", "alianca", "alliance");
+
+        if(Bukkit.getPluginManager().getPlugin("ArmaChest") != null) {
+            CommandSpec guildChestLeaderCommand = CommandSpec.builder().executor(new GuildLeaderChestCommand()).playerOnly().build();
+            CommandSpec guildChestCommand = CommandSpec.builder().executor(new GuildChestCommand()).playerOnly()
+                    .child(guildChestLeaderCommand, "lider").build();
+            guildCommandBuilder.child(guildChestCommand, "chest");
+            guildCommandBuilder.child(guildSetHomeCommand, "sethome");
+        }
 
         CommandSpec guildChatCommand = CommandSpec.builder().executor(new GuildChatCommand())
                 .arguments(GenericArguments.joinString("message")).build();
 
         CommandExpress.registerCommandEntryPoint(this, guildChatCommand, ".");
-        CommandExpress.registerCommandEntryPoint(this, guildCommand, "guild");
+        CommandExpress.registerCommandEntryPoint(this, guildCommandBuilder.build(), "guild");
     }
 
     @Override
